@@ -6,5 +6,6 @@
   </head>
   <body>
     <p>Strona główna</p>
+    <h1>No zmiana number one</h1>
   </body>
 </html>
