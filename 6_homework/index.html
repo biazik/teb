@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pl" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>O Twoim aucie...</title>
+  </head>
+  <body>
+    <h1>Podaj informacje o swoim aucie</h1>
+    <form action="form.php" method="post">
+      <select name="brand">
+        <option value="1">Wybierz markę</option>
+        <option value="2">BMW</option>
+        <option value="3">Volkswagen</option>
+        <option value="4">Toyota</option>
+        <option value="5">Subaru</option>
+        <option value="6">Alfa Romeo</option>
+        <option value="7">Fiat</option>
+      </select><br><br>
+      <input type="text" name="model" placeholder="Model"/><br><br>
+      Kolor Twojego auta: <input type="color" name="color"/><br><br>
+      <input style="width: 100px;" type="number" name="yop" min="1900" max="2022" step="1" placeholder="Rok produkcji"/><sup>*Od 1900r do 2022r</sup><br><br>
+      <input type="submit" name="button" value="Wyślij">
+    </form>
+  </body>
+</html>
