@@ -40,19 +40,24 @@ else {
         header('location: ../');
         exit();
       }
+      //pobieranie miasta xd NEI DZIALA
+      // $sql = "SELECT * FROM `cities` INNER JOIN `users` ON `cities`.`city_id` = `users`.`city_id` WHERE `users`.`id` = $user[id];";
+      // $result = $connect->query($sql);
+      // $city_info = $result->fetch_assoc();
+
       // Ustawiamy $_SESSIONY do użycia na stronie głównej
-      $_SESSION['logged']['role_id']=$user['role_id'];
+      // $_SESSION['logged']['city']=$city_info
+      $sql = "SELECT role_id FROM userrole INNER JOIN users ON users.id = userrole.user_id WHERE users.id=10;";
+      $result = $connect->query($sql);
+      $role = $result->fetch_assoc();
+      $_SESSION['logged']['role_id']=$role['role_id'];
       $_SESSION['logged']['user']=$user;
       header('location: ../pages/logged/home.php');
       exit();
     }
     else {
       $_SESSION['error'] = "Błędny email lub hasło.";
-      // header('location: ../');
-      echo $_POST['password'];
-      echo "<br>";
-      echo $user['password'];
-      exit();
+      header('location: ../');
     }
   }
 

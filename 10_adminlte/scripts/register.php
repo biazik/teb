@@ -1,11 +1,10 @@
 <?php
 // Bardzo ważna komenda w każdej stronie jeżeli używacie sesji użytkownika do chociażby logowania czy ciasteczek
 session_start();
-
-//DO ZROBIENIA:
-//Link aktywacyjny
-//Po tym cała rejestracja działa w 100%. Ustawianie rang użytkownika trzeba zrobić.
-
+// echo "<pre>";
+// print_r($_POST);
+// echo "<pre>";
+// exit();
 // Pętla foreach... Bierze $_POST, czyli to czym wysłaliśmy na tę stronę dane z formularza, wyciąga z arraya te dane, tak, aby można było je łatwiej rozłożyć na proste dane i sprawdza, czy wszystkie pola zostały wypełnione. W razie niewypełnienia ustawia $_SESSION['error'] <- I tu się przydaje session_start(), który wywali na stronie głównej, że nie wpisaliśmy wszystkich danych. Tak dla przypomnienia exit zamyka robienie skryptu, żeby użytkownik nie mógł podejrzeć niczego więcej.
 foreach ($_POST as $key => $value) {
   if (empty($value)) {
@@ -85,15 +84,20 @@ if ($error==1){
 // Ustawiamy znowu zmienną, tym razem $pass, która przechowuje nasze hasło w ARGON2ID. Tutaj nie ma co tłumaczyć, zmienna password_hash, jak kiedyś jej zapomnicie to sprawdzicie w dokumentacji, nic dodać, nic ująć.
 $pass = password_hash($_POST['password1'], PASSWORD_BCRYPT);
 
-
+if ($_POST['gender']==1) {
+  $avatar="avatar5.png";
+}
+else {
+  $avatar="avatar2.png";
+}
 
 //wytłumaczone już w register.php w pages.
 require_once './connect.php';
-$sql = "INSERT INTO `users` (`email`, `city_id`, `number`, `name`, `surname`, `birthday`, `gender`, `password`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO `users` (`email`, `number`, `name`, `surname`, `birthday`, `gender`, `password`, `avatar_src`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
 //Przesyłamy dane bezpieczną metodą. Jak kogoś to dokładnie interesuje to można wyszukać jak działa bind_param(), lecz myślę, że można równie dobrze na pamięć się nauczyć, często będziemy tego używali, wejdzie w głowę. Łatwiejsza metoda to $connect->query($sql), ale jest to mało bezpieczna opcja. Na pewno szybsza, ale podatna na sql injection
 $stmt = $connect->prepare($sql);
-$stmt->bind_param("ssssssss", $email, $_POST['city_id'], $number, $name, $surname, $_POST['birthday'], $_POST['gender'], $pass);
+$stmt->bind_param("ssssssss", $email, $number, $name, $surname, $_POST['birthday'], $_POST['gender'], $pass, $avatar);
 
 //No i końcowo, jeżeli stmt->execute nie powiedzie się, czyli finalnie skrypt dodający nie doda, to wywalamy błąd, że nie dodano użytkownika. W razie jeżeli stmt->execute się powiedzie, użytkownik zostanie na 100% dodany do bazy, więc mu to pokazujemy.
 if ($stmt->execute()) {
@@ -107,12 +111,22 @@ if ($stmt->execute()) {
   //Tutaj robimy mailera. Mailer pozwoli nam na wysyłanie maili do użytkowników, aby powiadamiać ich o różnych rzeczach czy też do aktywacji konta. Do konfiguracji mailera potrzebujecie zrobić coś więcej niż wklejenie kodu i odpalenie go, więc zamieszczam link, który dostałem od Michała. Autor poradnika tłumaczy bardzo prosto, myślę, że każdy ogarnie ;) Przyda nam się jakiś mail na Gmailu, żebyśmy nie musieli szukać configu pod inne poczty.
   //Link: https://www.thapatechnical.com/2020/03/how-to-send-mail-from-localhost-xampp.html
 
+
   $to_email = $email;
   $subject = "Aktywacja konta";
   $body = "Witaj, aby aktywować konto należy przejść na tę stronę http://localhost/teb/10_adminlte/scripts/account_activation.php?activation_link=$activation_link&email=$email";
 
   if (mail($to_email, $subject, $body)) {
       $_SESSION['error']="Konto utworzone, potwierdź aktywację z maila na poczcie.";
+
+      // $sql="SELECT 'id' FROM `users` WHERE `email`='$email'";
+      $sql = "SELECT id FROM `users` WHERE email = '$email';";
+      $result=$connect->query($sql);
+      $userId=$result->fetch_assoc();
+
+      $sql = "INSERT INTO `userrole` (`user_id`, `role_id`) VALUES ( '$userId[id]' , '$_POST[role]');";
+      $connect->query($sql);
+
   }
 
   header('location: ../');

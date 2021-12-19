@@ -7,7 +7,8 @@ if (isset($_GET['activation_link']) and isset($_GET['email'])) {
   $link = $_GET['activation_link'];
   $email = $_GET['email'];
   //pobieramy info kiedy zostalo utworzone konto, jakie ma id i emaila uzytkownika xD
-  $sql = "SELECT created_at, user_id, users.email,link  FROM activation_link INNER JOIN users ON user_id = users.id  WHERE users.email = '$email';";
+  // $sql = "SELECT created_at, user_id, users.email,link  FROM activation_link INNER JOIN users ON user_id = users.id  WHERE users.email = '$email';";
+$sql = "SELECT activation_link.created_at, user_id, users.email,link  FROM activation_link INNER JOIN users ON user_id = users.id  WHERE users.email = '$email';";
   $result = $connect->query($sql);
   $row = $result->fetch_assoc();
 

@@ -83,17 +83,17 @@ session_start();
           </div>
         </div>
         <!-- Miasta -->
-        <div class="input-group mb-3">
+        <!-- <div class="input-group mb-3">
             <select class="custom-select" name='city_id'>
               <?php
               // Zaczynają się skrypty XD Require_once injectuje skrypt jeden raz, ten skrypt jest akurat na połączenie z bazą danych, tak, aby nie pisać za każdym razem tych paru linijek. zmienna sql zawiera po prostu komendę, którą wyślemy do bazy, czyli w tym wypadku pobierz wszystkie dane z tabeli cities. result to po prostu przesłanie tej komendy, czyli zmienna connect pobrana ze skryptu z require_once przesyła query czyli zapytanie zawarte w zmeinnej sql. Następnie pętla while, polecam poczytać pętle jak ktoś nie ogarnia, przydatna rzecz. deklarujemy zmienną city i dopóki fetch_assoc czyli komenda wyciągająca nam jeden rekord z bazy nadal wyciąga te rekordy, to skrypt się wykonuje. W skrypcie po prostu wprowadzamy z bazy miasta, tutaj przyda się poznanie jak działa komenda option, a wpisujemy je właśnie dzięki temu, że zadeklarowaliśmy zmienną $city, więc możemy wstawić np $city[city_id], co pobierze nam z bazy 1 rekord city_id, czyli np. 1. Pętla while sprawdzi czy jeszcze
               // raz można wykonać skrypt, jeżeli tak to leci następny rekord, więc mamy city_id = 2 itd.
-              require_once("../scripts/connect.php");
-              $sql = "SELECT * FROM `cities`";
-              $result = $connect->query($sql);
-              while ($city = $result->fetch_assoc()) {
-              echo "<option value='$city[city_id]'> $city[city] </option>";
-              }
+              // require_once("../scripts/connect.php");
+              // $sql = "SELECT * FROM `cities` ORDER BY `city`";
+              // $result = $connect->query($sql);
+              // while ($city = $result->fetch_assoc()) {
+              // echo "<option value='$city[city_id]'> $city[city] </option>";
+              // }
                ?>
             </select>
 
@@ -103,7 +103,7 @@ session_start();
           </div>
           </div>
 
-        </div>
+        </div> -->
         <!-- Email -->
         <div class="input-group mb-3">
           <input type="email" class="form-control" name='email1' value="prowincjapatryk@gmail.com" placeholder="Email">
@@ -148,6 +148,16 @@ session_start();
               <!-- Span to taki paragraf, coś jak <p> tylko pewnie jest on jakoś wystylizowany w CSS, więc wolę użyć spana i mieć ładnie ułożony tekst -->
               <span>Data urodzenia</span>
             </div>
+          </div>
+        </div>
+        <!-- Rola -->
+        <div class="input-group mb-3">
+          <select class="custom-select" name="role">
+            <option value="1">Użytkownik</option>
+            <option value="2">Moderator</option>
+            <option value="3">Administrator</option>
+          </select>
+          <div class="input-group-append">
           </div>
         </div>
         <!-- Plec -->
