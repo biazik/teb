@@ -40,6 +40,11 @@ else {
         header('location: ../');
         exit();
       }
+      //last-Login
+      $sql = "UPDATE `users` SET `last_login` = CURRENT_TIME() WHERE `users`.`email` = '$user[email]' ";
+      $connect->query($sql);
+
+
       //pobieranie miasta xd NEI DZIALA
       // $sql = "SELECT * FROM `cities` INNER JOIN `users` ON `cities`.`city_id` = `users`.`city_id` WHERE `users`.`id` = $user[id];";
       // $result = $connect->query($sql);
@@ -47,11 +52,16 @@ else {
 
       // Ustawiamy $_SESSIONY do użycia na stronie głównej
       // $_SESSION['logged']['city']=$city_info
-      $sql = "SELECT role_id FROM userrole INNER JOIN users ON users.id = userrole.user_id WHERE users.id=10;";
+      $key = $user['id'];
+      $sql = "SELECT role_id FROM userrole INNER JOIN users ON users.id = userrole.user_id WHERE users.id=$key;";
+      // $sql = "SELECT role_id FROM userrole INNER JOIN users ON users.id = userrole.user_id WHERE users.id=10;";
       $result = $connect->query($sql);
       $role = $result->fetch_assoc();
       $_SESSION['logged']['role_id']=$role['role_id'];
       $_SESSION['logged']['user']=$user;
+      //pomoc do pliku database.php
+      $_SESSION['user_key']=$user['id'];
+      //koniec pomocy xD
       header('location: ../pages/logged/home.php');
       exit();
     }

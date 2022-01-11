@@ -3,6 +3,8 @@
     if(!isset($_SESSION))
     {
         session_start();
+        require_once("../../scripts/database.php");
+
     }
 $info=$_SESSION['logged']['user'];
 switch ($_SESSION['logged']['role_id']){

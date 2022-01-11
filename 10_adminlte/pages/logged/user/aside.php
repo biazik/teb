@@ -4,6 +4,7 @@ if(!isset($_SESSION))
     session_start();
 }
 $info=$_SESSION['logged']['user'];
+// $_SESSION['logged']['user']['DANA Z TABELI'] <- Tym pobieramy dane z tabeli users o zalogowanym uzytkowniku
 ?>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
