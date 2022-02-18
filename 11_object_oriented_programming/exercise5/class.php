@@ -1,4 +1,5 @@
 <?php
+// Settera ownera nie ma, lepiej wpisywac konstruktorem, mniej kodu.
 abstract class Animal{
   public int $weight, $age;
   public string $can_see, $can_breath, $carnivore_herbivore;

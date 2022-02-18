@@ -23,4 +23,9 @@ echo $rower->chainLength;
 echo "<br>";
 echo $rower->showData();
 
+echo "Metody obiektu rower";
+foreach (get_class_methods($rower) as $method) {
+  echo $method;
+}
+
  ?>
