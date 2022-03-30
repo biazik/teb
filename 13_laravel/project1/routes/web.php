@@ -110,3 +110,12 @@ Route::get('blade', function () {
   return view('szablon');
 });
 Route::get('tebc', [TebSite::class, 'index']);
+
+Route::get('data', [App\Http\Controllers\Data::class, 'test']);
+
+Route::get('kursy', [App\Http\Controllers\NBP::class, 'show']);
+Route::get('kalkulatorwalut', [App\Http\Controllers\NBP::class, 'calc']);
+
+Route::get('json', function(){
+  echo "isJson";
+})->middleware('IsJson');
